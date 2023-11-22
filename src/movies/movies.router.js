@@ -4,24 +4,23 @@ const methodNotAllowed = require("../errors/methodNotAllowed")
 const theatersRouter = require("../theaters/theaters.router")
 const reviewsRouter = require("../reviews/reviews.router")
 
+
 router.route("/")
         .get(controller.list)
         .all(methodNotAllowed)
 
-/* 
-Handle errors if movie doesn't exist
-Account for /:movieId/theaters
-*/
+
 router.route("/:movieId")
-        .get()  
+        .get(controller.read)  
 
 
-/* Will need to merge params with theaters*/
-router.use("/:movieId/theaters", theatersRouter)
+router.route("/:movieId/theaters")
+        .get(controller.listPlayingTheaters)
 
 
+ router.route("/:movieId/reviews")
+        .get(controller.listMovieReviews)
 
-router.use("/movieId/reviews", reviewsRouter)
 
 
 module.exports = router;
