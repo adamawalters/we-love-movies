@@ -22,7 +22,10 @@ async function update(req, res) {
         ...req.body.data,
         review_id : res.locals.review.review_id
     }
-    res.json({ data : await service.update(newReview)})
+
+    const response = await service.update(newReview)
+    console.log(`Response is ${JSON.stringify(response)}`)
+    res.json({ data : response})
 }
 
 /* Validations */
