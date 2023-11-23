@@ -1,4 +1,5 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const methodNotAllowed = require("../errors/methodNotAllowed");
 const service = require("./reviews.service")
 
 async function destroy (req, res) {
@@ -9,6 +10,7 @@ async function destroy (req, res) {
 
 function read(req, res) {
     const review = res.locals.review;
+
     res.json({data : review})
 }
 
@@ -24,8 +26,13 @@ async function update(req, res) {
     }
 
     const response = await service.update(newReview)
-    console.log(`Response is ${JSON.stringify(response)}`)
     res.json({ data : response})
+}
+
+async function listMovieReviews (req, res) {
+    const movieId = res.locals.movieId;
+    const movieReviews = await service.listMovieReviews(movieId);
+    res.json({data : movieReviews})
 }
 
 /* Validations */
@@ -44,12 +51,25 @@ async function reviewExists (req, res, next) {
     }
 }
 
+async function pathHasMovieParam (req, res, next) {
+    const movieId = req.params.movieId;
+    if(movieId) {
+        res.locals.movieId = movieId;
+        return next();
+    }
+    next({
+        status: 405,
+        message: `You can only list reviews for a certain movie`
+    });
+}
+
 
 
 module.exports = {
     delete : [asyncErrorBoundary(reviewExists), destroy],
     read : [asyncErrorBoundary(reviewExists), read],
-    update: [asyncErrorBoundary(reviewExists), update]
+    update: [asyncErrorBoundary(reviewExists), update],
+    listMovieReviews : [pathHasMovieParam,listMovieReviews]
 }
 
 /* Remove "read" from controller */

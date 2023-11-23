@@ -24,11 +24,6 @@ async function listPlayingTheaters(req, res) {
     res.json({data : playingTheaters})
 }
 
-async function listMovieReviews(req, res) {
-    const movie = res.locals.movie;
-    const movieReviews = await service.listMovieReviews(movie.id);
-    res.json({data : movieReviews})
-}
 
 /*Validations */
 
@@ -49,5 +44,5 @@ module.exports = {
     list: asyncErrorBoundary(list),
     read: [asyncErrorBoundary(movieExists), read],
     listPlayingTheaters: [asyncErrorBoundary(movieExists), listPlayingTheaters],
-    listMovieReviews: [asyncErrorBoundary(movieExists), listMovieReviews]
+    movieExists,
 }

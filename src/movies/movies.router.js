@@ -4,6 +4,7 @@ const methodNotAllowed = require("../errors/methodNotAllowed")
 const theatersRouter = require("../theaters/theaters.router")
 const reviewsRouter = require("../reviews/reviews.router")
 
+router.use("/:movieId/reviews", controller.movieExists, reviewsRouter)
 
 router.route("/")
         .get(controller.list)
@@ -16,11 +17,6 @@ router.route("/:movieId")
 
 router.route("/:movieId/theaters")
         .get(controller.listPlayingTheaters)
-
-
- router.route("/:movieId/reviews")
-        .get(controller.listMovieReviews)
-
 
 
 module.exports = router;
