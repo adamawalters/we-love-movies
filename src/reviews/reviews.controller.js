@@ -72,4 +72,4 @@ module.exports = {
     listMovieReviews : [pathHasMovieParam,listMovieReviews]
 }
 
-/* Remove "read" from controller */
+/* Remove "read" from controller before submission as this endpoint ("/reviews" - GET) is not necessary */
