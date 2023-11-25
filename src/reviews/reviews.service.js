@@ -42,8 +42,9 @@ async function update(review) {
       "c.updated_at as critic_updated_at"
     )
     .where("r.review_id", review.review_id)
+    .first()
 
-    response =  response.map((review) => addCritics(review))
+    response =  addCritics(response)
 
     return response;
 }

@@ -20,7 +20,7 @@ async function read(req, res) {
 
 async function listPlayingTheaters(req, res) {
     const movie = res.locals.movie;
-    const playingTheaters = await service.listPlayingTheaters(movie.id)
+    const playingTheaters = await service.listPlayingTheaters(movie.movie_id)
     res.json({data : playingTheaters})
 }
 

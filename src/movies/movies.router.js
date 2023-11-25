@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const controller = require("./movies.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed")
-const theatersRouter = require("../theaters/theaters.router")
 const reviewsRouter = require("../reviews/reviews.router")
 
+/* Use reviews router if requesting a list of reviews for a movie */
 router.use("/:movieId/reviews", controller.movieExists, reviewsRouter)
 
 router.route("/")
@@ -12,11 +12,13 @@ router.route("/")
 
 
 router.route("/:movieId")
-        .get(controller.read)  
+        .get(controller.read)
+        .all(methodNotAllowed)  
 
 
 router.route("/:movieId/theaters")
         .get(controller.listPlayingTheaters)
+        .all(methodNotAllowed)
 
 
 module.exports = router;

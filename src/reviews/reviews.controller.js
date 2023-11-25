@@ -1,5 +1,4 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const methodNotAllowed = require("../errors/methodNotAllowed");
 const service = require("./reviews.service")
 
 async function destroy (req, res) {
@@ -8,11 +7,6 @@ async function destroy (req, res) {
     res.sendStatus(204);
 }
 
-function read(req, res) {
-    const review = res.locals.review;
-
-    res.json({data : review})
-}
 
 async function update(req, res) {
     /* Expected body only updates the "score" and "content" properties */
@@ -67,7 +61,6 @@ async function pathHasMovieParam (req, res, next) {
 
 module.exports = {
     delete : [asyncErrorBoundary(reviewExists), destroy],
-    read : [asyncErrorBoundary(reviewExists), read],
     update: [asyncErrorBoundary(reviewExists), update],
     listMovieReviews : [pathHasMovieParam,listMovieReviews]
 }
